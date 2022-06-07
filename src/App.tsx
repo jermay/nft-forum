@@ -1,17 +1,24 @@
-import { Row, Typography } from "web3uikit";
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import { Row } from "web3uikit";
+import { Header } from "./views/home/Header";
+import { NewThread } from "./views/thread/NewThread";
+import { ThreadDetails } from "./views/thread/ThreadDetails";
+import { ThreadList } from "./views/thread/ThreadList";
 
 function App() {
   return (
-    <>
-      <Row alignItems="center" justifyItems="center">
-        <Typography variant="h1">NFT Forum</Typography>
-      </Row>
-      <Row alignItems="center" justifyItems="center">
-        <Typography variant="body18">
-          Demo app that will support NFT avatars and login using NFTs
-        </Typography>
-      </Row>
-    </>
+    <Router>
+      <div style={{ padding: "15px" }}>
+        <Header />
+        <Row>
+          <Routes>
+            <Route path="/" element={<ThreadList />} />
+            <Route path="/thread/new" element={<NewThread />} />
+            <Route path="/thread/:threadId" element={<ThreadDetails />} />
+          </Routes>
+        </Row>
+      </div>
+    </Router>
   );
 }
 
