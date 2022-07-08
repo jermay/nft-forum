@@ -1,5 +1,6 @@
-import { memoryApi } from "./MemoryApi";
+import { apiClient } from "./ApiClient";
+// import { memoryApi } from "./MemoryApi";
 
 export const useApi = () => {
-  return memoryApi;
+  return apiClient;
 };
