@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { Row, Table, Typography } from "web3uikit";
@@ -9,15 +10,24 @@ const TableWrapper = styled.div`
 `;
 
 export const ThreadList = () => {
+  const [threads, setThreads] = useState<Thread[]>([]);
   const api = useApi();
 
+  useEffect(() => {
+    api
+      .getThreads()
+      .then((data) => setThreads(data || []))
+      .catch(() => setThreads([]));
+  }, []);
+
   const createThreadItem = (thread: Thread) => {
-    const post = api.findComment(thread.postId);
+    // const post = api.findComment(thread.postId);
     return [
       <Typography>
         <Link to={`/thread/${thread.id}`}>{thread.title}</Link>
       </Typography>,
-      <Typography>{post ? post.author : ""}</Typography>,
+      "",
+      // <Typography>{post ? post.author : ""}</Typography>,
     ];
   };
 
@@ -28,7 +38,7 @@ export const ThreadList = () => {
           columnsConfig="3fr 2fr"
           header={[<span>Title</span>, <span>Author</span>]}
           pageSize={10}
-          data={api.threads.map(createThreadItem)}
+          data={threads.map(createThreadItem)}
           customNoDataText="Be the first to start a new topic!"
         />
       </TableWrapper>

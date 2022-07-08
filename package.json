@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "swagger:extract": "npx swagger-typescript-api --axios --output src/api --name swagger.ts --path http://localhost:3001/docs-json"
   },
   "dependencies": {
     "react": "^18.0.0",

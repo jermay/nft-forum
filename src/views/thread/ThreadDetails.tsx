@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Avatar, Button, Row, Table, Typography } from "web3uikit";
+import { Button, Row, Table, Typography } from "web3uikit";
 import { Post as PostData, Thread } from "../../api";
 import { useApi } from "../../api/useApi";
 import { ButtonLink } from "../../components/ButtonLink";
+import { ShowOnLogin } from "../../components/ShowOnLogin";
 import { NewPost } from "../post/NewPost";
 import { Post } from "../post/Post";
 
@@ -59,11 +60,13 @@ export const ThreadDetails: React.FC = () => {
           {showNewComment ? (
             <></>
           ) : (
-            <Button
-              theme="primary"
-              text="New Comment"
-              onClick={onNewCommentClicked}
-            />
+            <ShowOnLogin>
+              <Button
+                theme="primary"
+                text="New Comment"
+                onClick={onNewCommentClicked}
+              />
+            </ShowOnLogin>
           )}
           <ButtonLink
             to="/"

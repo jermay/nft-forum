@@ -1,3 +1,5 @@
+import { CreateUserDto, LoginDto, LoginResponseDto } from "./swagger";
+
 export interface Post {
   id: number;
   threadId: number;
@@ -36,6 +38,10 @@ export interface IPaginationResponse<T> {
 }
 
 export interface IAPI {
+  login(credentials: LoginDto): Promise<LoginResponseDto>;
+  logout(): Promise<boolean>;
+  register(info: CreateUserDto): Promise<LoginResponseDto>;
+
   createThread(thread: ICreateThread): Promise<Thread>;
   getThreads(): Promise<Thread[]>;
   getThread(threadId: number): Promise<Thread | undefined>;

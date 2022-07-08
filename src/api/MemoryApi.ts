@@ -1,4 +1,5 @@
 import { IAPI, ICreateComment, ICreateThread, Post, Thread } from ".";
+import { CreateUserDto, LoginDto, LoginResponseDto } from "./swagger";
 
 class MemoryApi implements IAPI {
   threads: Thread[] = [
@@ -10,6 +11,24 @@ class MemoryApi implements IAPI {
     { id: 2, threadId: 1, author: "Ivan", content: "Bitcoin will be pumped!" },
     { id: 3, threadId: 2, author: "Bill", content: "Vite is so fast! Oscar is king!" },
   ];
+
+  async login(credentials: LoginDto): Promise<LoginResponseDto> {
+    return {
+      user: { username: credentials.username },
+      accessToken: 'test',
+    };
+  }
+
+  async logout(): Promise<boolean> {
+    return true;
+  }
+
+  async register(info: CreateUserDto): Promise<LoginResponseDto> {
+    return {
+      user: { username: info.username },
+      accessToken: 'test',
+    };
+  }
 
   async createThread(thread: ICreateThread): Promise<Thread> {
     const newThreadId = this.threads.length + 1;
