@@ -1,10 +1,10 @@
 import React from "react";
 import { Avatar, Row, Typography } from "web3uikit";
 import styled from "styled-components";
-import { Post as PostData } from "../../api";
+import { PostDto } from "../../api/swagger";
 
 export type PostProps = {
-  data: PostData;
+  data: PostDto;
 };
 
 const PostWrapper = styled.div`
@@ -13,15 +13,15 @@ const PostWrapper = styled.div`
   margin-left: 15px;
 `;
 
-export const Post: React.FC<PostProps> = ({ data: { author, content } }) => {
+export const Post: React.FC<PostProps> = ({ data: { Author, content } }) => {
   return (
     <>
       <Row.Col span={1}>
-        <Avatar isRounded size={36} theme="image" />
+        <Avatar isRounded size={36} theme="image" image={Author.avatarUrl} />
       </Row.Col>
       <Row.Col span={23}>
         <PostWrapper>
-          <Typography>{author}</Typography>
+          <Typography>{Author.username}</Typography>
           <Typography>{content}</Typography>
         </PostWrapper>
       </Row.Col>

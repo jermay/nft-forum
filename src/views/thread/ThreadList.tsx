@@ -21,13 +21,10 @@ export const ThreadList = () => {
   }, []);
 
   const createThreadItem = (thread: Thread) => {
-    // const post = api.findComment(thread.postId);
     return [
       <Typography>
         <Link to={`/thread/${thread.id}`}>{thread.title}</Link>
       </Typography>,
-      "",
-      // <Typography>{post ? post.author : ""}</Typography>,
     ];
   };
 
@@ -35,8 +32,8 @@ export const ThreadList = () => {
     <Row.Col span={24}>
       <TableWrapper>
         <Table
-          columnsConfig="3fr 2fr"
-          header={[<span>Title</span>, <span>Author</span>]}
+          columnsConfig="3fr"
+          header={[<span>Title</span>]}
           pageSize={10}
           data={threads.map(createThreadItem)}
           customNoDataText="Be the first to start a new topic!"

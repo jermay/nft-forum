@@ -1283,6 +1283,14 @@
     "@types/qs" "*"
     "@types/range-parser" "*"
 
+"@types/hoist-non-react-statics@*":
+  version "3.3.1"
+  resolved "https://registry.yarnpkg.com/@types/hoist-non-react-statics/-/hoist-non-react-statics-3.3.1.tgz#1124aafe5118cb591977aeb1ceaaed1070eb039f"
+  integrity sha512-iMIqiko6ooLrTh1joXodJK5X9xeEALT1kM5G3ZLhD3hszxBdIEd5C75U834D9mLcINgD4OyZf5uQXjkuYydWvA==
+  dependencies:
+    "@types/react" "*"
+    hoist-non-react-statics "^3.3.0"
+
 "@types/lodash@^4.14.159":
   version "4.14.182"
   resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.182.tgz#05301a4d5e62963227eaafe0ce04dd77c54ea5c2"
@@ -1347,6 +1355,15 @@
   integrity sha512-Da66lEIFeIz9ltsdMZcpQvmrmmoqrfju8pm1BH8WbYjZSwUgCwXLb9C+9XYogwBITnbsSaMdVPb2ekf7TV+03w==
   dependencies:
     "@types/node" "*"
+
+"@types/styled-components@^5.1.25":
+  version "5.1.25"
+  resolved "https://registry.yarnpkg.com/@types/styled-components/-/styled-components-5.1.25.tgz#0177c4ab5fa7c6ed0565d36f597393dae3f380ad"
+  integrity sha512-fgwl+0Pa8pdkwXRoVPP9JbqF0Ivo9llnmsm+7TCI330kbPIFd9qv1Lrhr37shf4tnxCOSu+/IgqM7uJXLWZZNQ==
+  dependencies:
+    "@types/hoist-non-react-statics" "*"
+    "@types/react" "*"
+    csstype "^3.0.2"
 
 "@types/ws@^7.4.4":
   version "7.4.7"
@@ -3390,7 +3407,7 @@ hmac-drbg@^1.0.1:
     minimalistic-assert "^1.0.0"
     minimalistic-crypto-utils "^1.0.1"
 
-hoist-non-react-statics@^3.0.0:
+hoist-non-react-statics@^3.0.0, hoist-non-react-statics@^3.3.0:
   version "3.3.2"
   resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-3.3.2.tgz#ece0acaf71d62c2969c2ec59feff42a4b1a85b45"
   integrity sha512-/gGivxi8JPKWNm/W0jSmzcMPpfpPLc3dY/6GxhX2hQ9iGj3aDfklV4ET7NjKpSinLpJ5vafa9iiGIEZg10SfBw==

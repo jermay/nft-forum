@@ -1,4 +1,12 @@
-import { createContext, FC, ReactNode, useContext, useState } from "react";
+import {
+  createContext,
+  FC,
+  ReactNode,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { TOKEN_KEY } from "../../api/ApiClient";
 import { CreateUserDto, LoginDto, UserDto } from "../../api/swagger";
 import { useApi } from "../../api/useApi";
@@ -19,9 +27,27 @@ const LoginContext = createContext<LoginContextData>({
 
 export const useLoginContext = () => {
   const api = useApi();
-  const { authToken, setAuthToken, setUser, user } = useContext(LoginContext);
+  const [loading, setLoading] = useState(false);
+  const loginContext = useContext(LoginContext);
+  const { authToken, setAuthToken, setUser, user } = loginContext;
 
-  const isLoggedIn = authToken !== null;
+  const isLoggedIn = useMemo(() => user !== null, [user]);
+
+  useEffect(() => {
+    if (user || !authToken || loading) return;
+    setLoading(true);
+    api
+      .getUser()
+      .then((userDto) => {
+        setUser(userDto);
+        setLoading(false);
+      })
+      .catch((e) => {
+        setLoading(false);
+        console.error(e);
+        setAuthToken(null);
+      });
+  }, [user]);
 
   const login = async (credentials: LoginDto) => {
     const response = await api.login(credentials);
@@ -44,12 +70,11 @@ export const useLoginContext = () => {
   };
 
   return {
-    authToken,
+    ...loginContext,
     isLoggedIn,
     login,
     logout,
     register,
-    user,
   };
 };
 

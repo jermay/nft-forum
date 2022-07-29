@@ -9,7 +9,7 @@ export const LoginButton: React.FC = () => {
   return (
     <>
       {isLoggedIn ? (
-        <Button text="Sign Out" theme="primary" onClick={logout} />
+        <Button text="Sign Out" theme="secondary" onClick={logout} />
       ) : (
         <ButtonLink to="/login" text="Sign In" theme="primary" />
       )}

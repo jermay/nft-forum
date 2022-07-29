@@ -16,13 +16,13 @@ export interface Thread {
 
 export interface ICreateComment {
   threadId: number;
-  author: string;
+  // author: string;
   content: string;
 }
 
 export interface ICreateThread {
   title: string;
-  author: string;
+  // author: string;
   content: string;
 }
 

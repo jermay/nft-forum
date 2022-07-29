@@ -21,10 +21,12 @@ export const Header: React.FC = () => {
         Demo app that will support NFT avatars and login using NFTs
       </Typography>
       <ButtonWrapper>
-        <LoginButton />
+        <ButtonLink to="/" text="View Topics" theme="primary" />
         <ShowOnLogin>
           <ButtonLink to="/thread/new" text="New Thread" theme="primary" />
+          <ButtonLink to="/profile" text="Profile" theme="outline" />
         </ShowOnLogin>
+        <LoginButton />
       </ButtonWrapper>
     </HeaderWrapper>
   );
