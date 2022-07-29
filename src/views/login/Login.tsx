@@ -20,6 +20,7 @@ export const Login: React.FC = () => {
         password: vals.LOGIN_PASSWORD,
       });
       navigate("/");
+    } catch {
     } finally {
       setLoading(false);
     }

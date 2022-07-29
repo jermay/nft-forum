@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Button, Row, Table, Typography } from "web3uikit";
-import { Post as PostData, Thread } from "../../api";
+import { PostDto, ThreadDto } from "../../api/swagger";
 import { useApi } from "../../api/useApi";
 import { ButtonLink } from "../../components/ButtonLink";
 import { ShowOnLogin } from "../../components/ShowOnLogin";
@@ -11,7 +11,7 @@ import { Post } from "../post/Post";
 export const ThreadDetails: React.FC = () => {
   const { threadId } = useParams();
   const api = useApi();
-  const [thread, setThread] = useState<Thread>();
+  const [thread, setThread] = useState<ThreadDto>();
   const [showNewComment, setShowNewComment] = useState(false);
 
   useEffect(() => {
@@ -25,8 +25,8 @@ export const ThreadDetails: React.FC = () => {
   if (!threadId || !thread) return null;
 
   const onNewCommentClicked = () => setShowNewComment(true);
-  const onNewCommentSubmit = (newComment: PostData) => {
-    const updated: Thread = {
+  const onNewCommentSubmit = (newComment: PostDto) => {
+    const updated: ThreadDto = {
       ...thread,
       comments: thread.comments
         ? [...thread.comments, newComment]
@@ -60,7 +60,7 @@ export const ThreadDetails: React.FC = () => {
           {showNewComment ? (
             <></>
           ) : (
-            <ShowOnLogin>
+            <ShowOnLogin redirect={false}>
               <Button
                 theme="primary"
                 text="New Comment"
@@ -70,7 +70,7 @@ export const ThreadDetails: React.FC = () => {
           )}
           <ButtonLink
             to="/"
-            text="Back to Posts"
+            text="Back to Topics"
             type="button"
             theme="secondary"
             icon="arrowCircleLeft"

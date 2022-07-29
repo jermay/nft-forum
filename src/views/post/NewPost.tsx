@@ -1,14 +1,15 @@
 import React from "react";
 import { Button, Form, Row } from "web3uikit";
 import { FormDataReturned } from "web3uikit/dist/components/Form/types";
-import { ICreateComment, Post } from "../../api";
+import { ICreateComment } from "../../api";
+import { PostDto } from "../../api/swagger";
 import { useApi } from "../../api/useApi";
 import { getFormKeyValues } from "../../utils";
 
 export type NewPostProps = {
   threadId: number;
   show: boolean;
-  onSubmit: (comment: Post) => void;
+  onSubmit: (comment: PostDto) => void;
   onCancel: () => void;
 };
 
@@ -25,7 +26,6 @@ export const NewPost: React.FC<NewPostProps> = ({
     const comment: ICreateComment = {
       threadId,
       content,
-      author: "Guest",
     };
     const post = await api.createComment(comment);
     onSubmit(post);

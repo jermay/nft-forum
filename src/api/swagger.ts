@@ -9,13 +9,18 @@
  * ---------------------------------------------------------------
  */
 
-export interface LoginDto {
-  username: string;
-  password: string;
-}
-
 export interface UserDto {
   username: string;
+  avatarUrl: string;
+}
+
+export interface UpdateUserAvatarDto {
+  address: string;
+  chainId: number;
+  signature: string;
+  tokenAddress: string;
+  tokenId: string;
+  avatarUrl: string;
 }
 
 export interface LoginResponseDto {
@@ -23,9 +28,52 @@ export interface LoginResponseDto {
   accessToken: string;
 }
 
+export interface LoginDto {
+  username: string;
+  password: string;
+}
+
 export interface CreateUserDto {
   username: string;
   password: string;
+}
+
+export interface NFTMetadataDto {
+  animation_url: string;
+  attributes: string[];
+  background_color: string;
+  description: string;
+  image: string;
+  image_url: string;
+  name: string;
+  traits: string[];
+  youtube_url: string;
+}
+
+export interface NftDto {
+  amount: string;
+  block_number: string;
+  block_number_minted: string;
+  contract_type: string;
+  last_metadata_sync: string;
+  last_token_uri_sync: string;
+  metadata: NFTMetadataDto;
+  name: string;
+  owner_of: string;
+  symbol: string;
+  token_address: string;
+  token_hash: string;
+  token_id: string;
+  token_uri: string;
+}
+
+export interface NftBalanceDto {
+  cursor: string;
+  page: number;
+  page_size: number;
+  result: NftDto[];
+  status: string;
+  total: number;
 }
 
 export interface CreateThreadRquestDto {
@@ -37,6 +85,7 @@ export interface PostDto {
   id: number;
   threadId: number;
   author: string;
+  Author: UserDto;
   content: string;
 }
 
@@ -204,6 +253,37 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       ...params,
     });
 
+  user = {
+    /**
+     * No description
+     *
+     * @name UserControllerGetUser
+     * @request GET:/user
+     */
+    userControllerGetUser: (params: RequestParams = {}) =>
+      this.request<UserDto, any>({
+        path: `/user`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @name UserControllerUpdateUserAvatar
+     * @request PUT:/user/avatar
+     */
+    userControllerUpdateUserAvatar: (data: UpdateUserAvatarDto, params: RequestParams = {}) =>
+      this.request<LoginResponseDto, any>({
+        path: `/user/avatar`,
+        method: "PUT",
+        body: data,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+  };
   auth = {
     /**
      * No description
@@ -233,6 +313,43 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         body: data,
         type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+  };
+  nft = {
+    /**
+     * No description
+     *
+     * @name NftControllerGetBalance
+     * @request GET:/nft/balance
+     */
+    nftControllerGetBalance: (
+      query: { pageSize?: number; cursor?: string; address: string; chainId: number; signature: string },
+      params: RequestParams = {},
+    ) =>
+      this.request<NftBalanceDto, any>({
+        path: `/nft/balance`,
+        method: "GET",
+        query: query,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @name NftControllerIsTokenOwner
+     * @request GET:/nft/owner
+     */
+    nftControllerIsTokenOwner: (
+      query: { address: string; chainId: number; signature: string; tokenAddress: string; tokenId: string },
+      params: RequestParams = {},
+    ) =>
+      this.request<boolean, any>({
+        path: `/nft/owner`,
+        method: "GET",
+        query: query,
         format: "json",
         ...params,
       }),

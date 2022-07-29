@@ -1,5 +1,15 @@
 import { IAPI, ICreateComment, ICreateThread, Post, Thread } from ".";
-import { Api, CreateUserDto, LoginDto, LoginResponseDto } from "./swagger";
+import {
+  Api,
+  CreateUserDto,
+  LoginDto,
+  LoginResponseDto,
+  NftBalanceDto,
+  PostDto,
+  ThreadDto,
+  UpdateUserAvatarDto,
+  UserDto,
+} from "./swagger";
 import { AxiosResponse } from "axios";
 
 export interface ApiErrorData {
@@ -9,7 +19,6 @@ export interface ApiErrorData {
 export const TOKEN_KEY = "authToken";
 
 export class ApiClient implements IAPI {
-
   api: Api<string>;
   authToken: string | null = null;
 
@@ -37,6 +46,7 @@ export class ApiClient implements IAPI {
 
   private handleResponse = <T>(res: AxiosResponse<T, any>): T => {
     if (res.status < 400) return res.data;
+    if (res.status === 401) this.setAuthToken(null);
     const data = res.data as unknown as ApiErrorData;
     throw new Error(data.message || res.statusText);
   };
@@ -60,6 +70,11 @@ export class ApiClient implements IAPI {
     return data;
   };
 
+  getUser = async (): Promise<UserDto> => {
+    const response = await this.api.user.userControllerGetUser();
+    return this.handleResponse(response);
+  };
+
   createThread = async (thread: ICreateThread): Promise<Thread> => {
     const response = await this.api.thread.threadControllerCreate(thread);
     return this.handleResponse(response);
@@ -70,7 +85,7 @@ export class ApiClient implements IAPI {
     return this.handleResponse(response);
   };
 
-  getThread = async (threadId: number): Promise<Thread | undefined> => {
+  getThread = async (threadId: number): Promise<ThreadDto | undefined> => {
     const response = await this.api.thread.threadControllerFindOne(threadId);
     return this.handleResponse(response);
   };
@@ -81,7 +96,7 @@ export class ApiClient implements IAPI {
     return data.comments;
   };
 
-  createComment = async (comment: ICreateComment): Promise<Post> => {
+  createComment = async (comment: ICreateComment): Promise<PostDto> => {
     const response = await this.api.comment.postControllerCreate(
       comment.threadId,
       comment
@@ -96,6 +111,22 @@ export class ApiClient implements IAPI {
     );
     return this.handleResponse(response);
   };
+
+  getUserNfts = async (dto: {
+    chainId: number;
+    address: string;
+    signature: string;
+  }): Promise<NftBalanceDto> => {
+    const response = await this.api.nft.nftControllerGetBalance(dto);
+    return this.handleResponse(response);
+  };
+
+  setUserAvatar = async (dto: UpdateUserAvatarDto) => {
+    const response = await this.api.user.userControllerUpdateUserAvatar(dto);
+    const data = this.handleResponse(response);
+    this.setAuthToken(data.accessToken);
+    return data;
+  }
 }
 
 export const apiClient = new ApiClient();
